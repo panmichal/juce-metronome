@@ -23,11 +23,12 @@ public:
     
     void hiResTimerCallback() override;
     
+    int mBpm = { 120 };
+    
 private:
     int mTotalSamples { 0 };
     double mSampleRate { 0 };
     int mInterval { 0 };
-    int mBpm = { 120 };
     int mSamplesRemaining;
     
     AudioFormatManager mFormatManager;

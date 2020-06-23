@@ -43,6 +43,7 @@ public:
 private:
     TextButton playButton { "Play" };
     TextButton stopButton { "Stop" };
+    TextEditor bpmField { "BPM" };
     
     PlayState mPlayState { PlayState::Stopped };
     

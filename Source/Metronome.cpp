@@ -27,7 +27,7 @@ void Metronome::getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill)
 {
     const auto bufferSize = bufferToFill.numSamples;
     mTotalSamples += bufferSize;
-    
+    DBG("BPM " << mBpm);
     if (mTotalSamples >= mInterval)
     {
         const auto timeToStartPlaying = mTotalSamples - mInterval;

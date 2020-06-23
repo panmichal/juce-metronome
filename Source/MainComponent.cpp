@@ -19,7 +19,13 @@ MainComponent::MainComponent()
     stopButton.setRadioGroupId(1);
     stopButton.onClick = [this]() { stop(); };
     addAndMakeVisible(stopButton);
-    setSize (200, 200);
+    
+    bpmField.setMultiLine(false);
+    bpmField.setInputRestrictions(3, "0123456789");
+    bpmField.onTextChange = [this] { mMetronome.mBpm = bpmField.getText().getIntValue(); };
+    addAndMakeVisible(bpmField);
+    setSize (300, 200);
+    
 
     // Some platforms require permissions to open input channels so request that here
     if (RuntimePermissions::isRequired (RuntimePermissions::recordAudio)
@@ -85,6 +91,7 @@ void MainComponent::resized()
     FlexBox flexBox;
     flexBox.items.add(FlexItem(100, 100, playButton));
     flexBox.items.add(FlexItem(100, 100, stopButton));
+    flexBox.items.add(FlexItem(100, 100, bpmField));
     flexBox.performLayout(bounds);
     
     
