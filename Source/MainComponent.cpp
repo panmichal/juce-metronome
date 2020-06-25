@@ -24,7 +24,18 @@ MainComponent::MainComponent()
     bpmField.setInputRestrictions(3, "0123456789");
     bpmField.onTextChange = [this] { mMetronome.mBpm = bpmField.getText().getIntValue(); };
     addAndMakeVisible(bpmField);
-    setSize (300, 200);
+    
+    decibelSlider.setRange (-100, -12);
+    decibelSlider.setTextBoxStyle (Slider::TextBoxRight, false, 100, 20);
+    decibelSlider.onValueChange = [this] { level = Decibels::decibelsToGain ((float) decibelSlider.getValue()); };
+    decibelSlider.setValue (Decibels::gainToDecibels (level));
+    decibelLabel.setText ("Metronomee gain in dB", NotificationType::dontSendNotification);
+    
+    addAndMakeVisible (decibelSlider);
+    addAndMakeVisible (decibelLabel);
+    
+    
+    setSize(400, 400);
     
 
     // Some platforms require permissions to open input channels so request that here
@@ -59,7 +70,7 @@ void MainComponent::getNextAudioBlock (const AudioSourceChannelInfo& bufferToFil
     
     if (mPlayState == PlayState::Playing)
     {
-        mMetronome.getNextAudioBlock(bufferToFill);
+        mMetronome.getNextAudioBlock(bufferToFill, level);
     } else
     {
         
@@ -92,6 +103,8 @@ void MainComponent::resized()
     flexBox.items.add(FlexItem(100, 100, playButton));
     flexBox.items.add(FlexItem(100, 100, stopButton));
     flexBox.items.add(FlexItem(100, 100, bpmField));
+    flexBox.items.add(FlexItem(100, 100, decibelSlider));
+    flexBox.items.add(FlexItem(100, 100, decibelLabel));
     flexBox.performLayout(bounds);
     
     

@@ -23,7 +23,7 @@ Metronome::Metronome()
     pMetronomeSample.reset(new AudioFormatReaderSource(formatReader, true)) ;
 }
 
-void Metronome::getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill)
+void Metronome::getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill, const double& gain)
 {
     const auto bufferSize = bufferToFill.numSamples;
     mTotalSamples += bufferSize;

@@ -17,7 +17,7 @@ class Metronome : public HighResolutionTimer
 public:
     Metronome();
     
-    void getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill);
+    void getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill, const double& gain);
     void reset();
     void prepareToPlay(int samplesPerBlockExpected, double sampleRate);
     

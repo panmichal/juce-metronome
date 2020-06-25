@@ -10,6 +10,7 @@
 
 #include <JuceHeader.h>
 #include "Metronome.h"
+#include "DecibelSlider.h"
 //==============================================================================
 /*
     This component lives inside our window, and this is where you should put all
@@ -44,6 +45,10 @@ private:
     TextButton playButton { "Play" };
     TextButton stopButton { "Stop" };
     TextEditor bpmField { "BPM" };
+    
+    DecibelSlider decibelSlider;
+    Label decibelLabel;
+    float level = 0.0f;
     
     PlayState mPlayState { PlayState::Stopped };
     
