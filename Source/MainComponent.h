@@ -48,7 +48,7 @@ private:
     
     DecibelSlider decibelSlider;
     Label decibelLabel;
-    float level = 0.0f;
+    float level = 1.0;
     
     PlayState mPlayState { PlayState::Stopped };
     

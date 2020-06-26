@@ -21,6 +21,7 @@ MainComponent::MainComponent()
     addAndMakeVisible(stopButton);
     
     bpmField.setMultiLine(false);
+    bpmField.setText(std::to_string(mMetronome.mBpm));
     bpmField.setInputRestrictions(3, "0123456789");
     bpmField.onTextChange = [this] { mMetronome.mBpm = bpmField.getText().getIntValue(); };
     addAndMakeVisible(bpmField);
@@ -29,13 +30,13 @@ MainComponent::MainComponent()
     decibelSlider.setTextBoxStyle (Slider::TextBoxRight, false, 100, 20);
     decibelSlider.onValueChange = [this] { level = Decibels::decibelsToGain ((float) decibelSlider.getValue()); };
     decibelSlider.setValue (Decibels::gainToDecibels (level));
-    decibelLabel.setText ("Metronomee gain in dB", NotificationType::dontSendNotification);
+    decibelLabel.setText ("Metronome gain in dB", NotificationType::dontSendNotification);
     
     addAndMakeVisible (decibelSlider);
     addAndMakeVisible (decibelLabel);
     
     
-    setSize(400, 400);
+    setSize(500, 400);
     
 
     // Some platforms require permissions to open input channels so request that here
@@ -99,13 +100,30 @@ void MainComponent::resized()
     Rectangle<int> bounds = getLocalBounds();
     
     
-    FlexBox flexBox;
-    flexBox.items.add(FlexItem(100, 100, playButton));
-    flexBox.items.add(FlexItem(100, 100, stopButton));
-    flexBox.items.add(FlexItem(100, 100, bpmField));
-    flexBox.items.add(FlexItem(100, 100, decibelSlider));
-    flexBox.items.add(FlexItem(100, 100, decibelLabel));
-    flexBox.performLayout(bounds);
+    FlexBox metronomeBox;
+    metronomeBox.flexDirection = FlexBox::Direction::column;
+//    FlexBox buttonsBox;
+//    buttonsBox.items.add(FlexItem(100, 100, playButton));
+//    buttonsBox.items.add(FlexItem(100, 100, stopButton));
+    metronomeBox.items.add(FlexItem(100, 100, playButton));
+    metronomeBox.items.add(FlexItem(100, 100, stopButton));
+//    metronomeBox.items.add(FlexItem(buttonsBox));
+    metronomeBox.items.add(FlexItem(100, 100, bpmField));
+    metronomeBox.items.add(FlexItem(100, 50, decibelLabel));
+    metronomeBox.items.add(FlexItem(100, 50, decibelSlider));
+    
+    FlexBox settingsBox;
+//    settingsBox.items.add(FlexItem(100, 100, decibelSlider));
+    
+    FlexBox fb;
+//    fb.alignContent = FlexBox::AlignContent::center;
+//    fb.justifyContent = FlexBox::JustifyContent::center;
+    fb.flexDirection = FlexBox::Direction::column;
+    fb.items.add(FlexItem(metronomeBox));
+    fb.items.add(FlexItem(settingsBox));
+    fb.flexWrap = FlexBox::Wrap::wrap;
+
+    fb.performLayout(bounds);
     
     
 }

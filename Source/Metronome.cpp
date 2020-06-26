@@ -23,7 +23,7 @@ Metronome::Metronome()
     pMetronomeSample.reset(new AudioFormatReaderSource(formatReader, true)) ;
 }
 
-void Metronome::getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill, const double& gain)
+void Metronome::getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill, const float& gain)
 {
     const auto bufferSize = bufferToFill.numSamples;
     mTotalSamples += bufferSize;
@@ -33,12 +33,15 @@ void Metronome::getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill, co
         const auto timeToStartPlaying = mTotalSamples - mInterval;
         pMetronomeSample->setNextReadPosition(0);
         
-        DBG(timeToStartPlaying);
+//        DBG(timeToStartPlaying);
         for (auto sample = 0; sample < bufferSize; sample++)
         {
             if (sample == timeToStartPlaying)
             {
                 pMetronomeSample->getNextAudioBlock(bufferToFill);
+            }
+            if (sample >=  timeToStartPlaying)
+            {
             }
         }
         mTotalSamples = mTotalSamples % mInterval;
@@ -49,6 +52,8 @@ void Metronome::getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill, co
     {
         pMetronomeSample->getNextAudioBlock(bufferToFill);
     }
+    
+    bufferToFill.buffer->applyGain(gain);
 }
 
 void Metronome::reset()

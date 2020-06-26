@@ -17,13 +17,14 @@ class Metronome : public HighResolutionTimer
 public:
     Metronome();
     
-    void getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill, const double& gain);
+    void getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill, const float& gain);
     void reset();
     void prepareToPlay(int samplesPerBlockExpected, double sampleRate);
     
     void hiResTimerCallback() override;
     
     int mBpm = { 120 };
+    float mGain = { 1.0 };
     
 private:
     int mTotalSamples { 0 };
