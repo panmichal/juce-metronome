@@ -101,31 +101,20 @@ void MainComponent::resized()
     
     
     FlexBox metronomeBox;
+    metronomeBox.alignContent = FlexBox::AlignContent::center;
+    metronomeBox.flexWrap = FlexBox::Wrap::wrap;
     metronomeBox.flexDirection = FlexBox::Direction::column;
-//    FlexBox buttonsBox;
-//    buttonsBox.items.add(FlexItem(100, 100, playButton));
-//    buttonsBox.items.add(FlexItem(100, 100, stopButton));
-    metronomeBox.items.add(FlexItem(100, 100, playButton));
-    metronomeBox.items.add(FlexItem(100, 100, stopButton));
-//    metronomeBox.items.add(FlexItem(buttonsBox));
-    metronomeBox.items.add(FlexItem(100, 100, bpmField));
-    metronomeBox.items.add(FlexItem(100, 50, decibelLabel));
-    metronomeBox.items.add(FlexItem(100, 50, decibelSlider));
+    metronomeBox.items.add(FlexItem(300, 50, playButton));
+    metronomeBox.items.add(FlexItem(300, 50, stopButton));
+    metronomeBox.items.add(FlexItem(300, 50, bpmField));
+    metronomeBox.performLayout(bounds.removeFromTop(300));
     
     FlexBox settingsBox;
-//    settingsBox.items.add(FlexItem(100, 100, decibelSlider));
-    
-    FlexBox fb;
-//    fb.alignContent = FlexBox::AlignContent::center;
-//    fb.justifyContent = FlexBox::JustifyContent::center;
-    fb.flexDirection = FlexBox::Direction::column;
-    fb.items.add(FlexItem(metronomeBox));
-    fb.items.add(FlexItem(settingsBox));
-    fb.flexWrap = FlexBox::Wrap::wrap;
-
-    fb.performLayout(bounds);
-    
-    
+    settingsBox.flexDirection = FlexBox::Direction::column;
+    settingsBox.alignContent = FlexBox::AlignContent::center;
+    settingsBox.items.add(FlexItem(300, 50, decibelSlider));
+                               
+    settingsBox.performLayout(bounds);
 }
 
 void MainComponent::play()
