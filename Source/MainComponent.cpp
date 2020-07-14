@@ -26,17 +26,17 @@ MainComponent::MainComponent()
     bpmField.onTextChange = [this] { mMetronome.mBpm = bpmField.getText().getIntValue(); };
     addAndMakeVisible(bpmField);
     
-    decibelSlider.setRange (-100, -12);
+    decibelSlider.setRange (-100, 0);
     decibelSlider.setTextBoxStyle (Slider::TextBoxRight, false, 100, 20);
     decibelSlider.onValueChange = [this] { level = Decibels::decibelsToGain ((float) decibelSlider.getValue()); };
     decibelSlider.setValue (Decibels::gainToDecibels (level));
-    decibelLabel.setText ("Metronome gain in dB", NotificationType::dontSendNotification);
     
     addAndMakeVisible (decibelSlider);
     addAndMakeVisible (decibelLabel);
     
     
     setSize(500, 400);
+    setLookAndFeel(&lookAndFeel);
     
 
     // Some platforms require permissions to open input channels so request that here
@@ -55,6 +55,7 @@ MainComponent::MainComponent()
 
 MainComponent::~MainComponent()
 {
+    setLookAndFeel(nullptr);
     // This shuts down the audio device and clears the audio source.
     shutdownAudio();
 }
@@ -99,8 +100,7 @@ void MainComponent::resized()
 {
     Rectangle<int> bounds = getLocalBounds();
     
-    
-    FlexBox metronomeBox;
+    metronomeBox.justifyContent = FlexBox::JustifyContent::center;
     metronomeBox.alignContent = FlexBox::AlignContent::center;
     metronomeBox.flexWrap = FlexBox::Wrap::wrap;
     metronomeBox.flexDirection = FlexBox::Direction::column;
@@ -109,7 +109,6 @@ void MainComponent::resized()
     metronomeBox.items.add(FlexItem(300, 50, bpmField));
     metronomeBox.performLayout(bounds.removeFromTop(300));
     
-    FlexBox settingsBox;
     settingsBox.flexDirection = FlexBox::Direction::column;
     settingsBox.alignContent = FlexBox::AlignContent::center;
     settingsBox.items.add(FlexItem(300, 50, decibelSlider));
